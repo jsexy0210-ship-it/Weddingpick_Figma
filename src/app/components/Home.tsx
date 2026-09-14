@@ -115,25 +115,25 @@ export function Home() {
 
       {/* Hero */}
       <div
-        className={`relative mx-5 mb-6 overflow-hidden rounded-[26px] p-6 text-white transition-colors duration-300 ${HERO_THEMES[heroTheme].surface}`}
+        className={`relative mx-5 mb-6 overflow-hidden rounded-[22px] p-4 text-white transition-colors duration-300 ${HERO_THEMES[heroTheme].surface}`}
       >
-        <div className="absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/[0.12]" />
-        <div className="absolute -bottom-12 -left-8 h-40 w-40 rounded-full border-[20px] border-white/[0.07]" />
+        <div className="absolute -right-8 -top-8 h-36 w-36 rounded-full bg-white/[0.10]" />
+        <div className="absolute -bottom-8 -left-6 h-28 w-28 rounded-full border-[14px] border-white/[0.07]" />
         <div className="relative">
-          <div className="mb-3 flex items-center justify-between">
-            <p className="font-mono text-[10px] tracking-[0.2em] text-white/60">두근두근</p>
+          <div className="mb-2 flex items-center justify-between">
+            <p className="font-mono text-[9px] tracking-[0.2em] text-white/55">두근두근</p>
             <div className="relative">
               <button
                 type="button"
                 aria-label="히어로 색상 더보기"
                 aria-expanded={paletteOpen}
                 onClick={() => setPaletteOpen((open) => !open)}
-                className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+                className="grid h-6 w-6 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
               >
-                <IconMoreHorizRegular size={16} />
+                <IconMoreHorizRegular size={14} />
               </button>
               {paletteOpen && (
-                <div className="absolute right-0 top-9 z-10 flex gap-1.5 rounded-full border border-white/20 bg-black/20 p-1.5 backdrop-blur">
+                <div className="absolute right-0 top-8 z-10 flex gap-1.5 rounded-full border border-white/20 bg-black/20 p-1.5 backdrop-blur">
                   {HERO_THEMES.map((theme, index) => (
                     <button
                       key={theme.name}
@@ -141,35 +141,37 @@ export function Home() {
                       aria-label={`${theme.name} 히어로 색상`}
                       aria-pressed={heroTheme === index}
                       onClick={() => { setHeroTheme(index); setPaletteOpen(false); }}
-                      className={`grid h-6 w-6 place-items-center rounded-full transition-transform ${
+                      className={`grid h-5 w-5 place-items-center rounded-full transition-transform ${
                         heroTheme === index
-                          ? "scale-110 ring-1 ring-white ring-offset-2 ring-offset-transparent"
+                          ? "scale-110 ring-1 ring-white ring-offset-1 ring-offset-transparent"
                           : "opacity-80 hover:opacity-100"
                       }`}
                     >
-                      <span className={`h-4 w-4 rounded-full ${theme.swatch}`} />
+                      <span className={`h-3.5 w-3.5 rounded-full ${theme.swatch}`} />
                     </button>
                   ))}
                 </div>
               )}
             </div>
           </div>
-          <span
-            className="mb-2 block font-display text-[64px] font-bold leading-none text-white tracking-[-0.03em]"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-          >
-            D-127
-          </span>
-          <p className="text-sm text-white/75">2027년 1월 15일 (금) · 서울 그랜드 워커힐</p>
-          <div className="mt-5 flex items-center justify-between border-t border-white/15 pt-4">
-            <div className="flex items-center gap-2">
-              <div className="flex -space-x-1.5">
-                <span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#F7D2C4] text-[9px] font-bold text-[#513B37]">지</span>
-                <span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#C9DAEC] text-[9px] font-bold text-[#31475D]">준</span>
-              </div>
-              <span className="text-[11px] font-medium text-white/80">지윤 · 준혁 함께 준비 중</span>
+          <div className="flex items-end justify-between">
+            <div>
+              <span
+                className="block font-display text-[46px] font-bold leading-none text-white tracking-[-0.03em]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                D-127
+              </span>
+              <p className="mt-1 text-xs text-white/70">2027년 1월 15일 (금) · 서울 그랜드 워커힐</p>
             </div>
-            <span className="text-[10px] text-white/65">연결됨</span>
+          </div>
+          {/* 커플 연결 — 서브 정보 */}
+          <div className="mt-3 flex items-center gap-1.5">
+            <div className="flex -space-x-1">
+              <span className="grid h-4 w-4 place-items-center rounded-full border border-white/50 bg-[#F7D2C4] text-[7px] font-bold text-[#513B37]">지</span>
+              <span className="grid h-4 w-4 place-items-center rounded-full border border-white/50 bg-[#C9DAEC] text-[7px] font-bold text-[#31475D]">준</span>
+            </div>
+            <span className="text-[10px] text-white/55">지윤 · 준혁 · 함께 준비 중</span>
           </div>
         </div>
       </div>

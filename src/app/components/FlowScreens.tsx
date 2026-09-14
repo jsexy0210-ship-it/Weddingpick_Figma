@@ -296,17 +296,17 @@ function CategoryRail() {
   return (
     <>
       <section className="border-b border-border px-5 py-4">
-        <p className="mb-3 text-xs font-bold text-foreground">카테고리</p>
-        <div className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
-          {[
-            { name: "웨딩홀", icon: "⌂", tone: "bg-[#eee0da]" },
-            { name: "드레스", icon: "♢", tone: "bg-[#e8dfe8]" },
-            { name: "예산", icon: "₩", tone: "bg-[#e6e8d9]" },
-            { name: "신혼여행", icon: "✈", tone: "bg-[#dce9e8]" },
-          ].map((item) => (
-            <button key={item.name} className="flex w-16 flex-none flex-col items-center gap-1.5">
-              <span className={`grid h-12 w-12 place-items-center rounded-2xl ${item.tone} text-lg text-foreground`}>{item.icon}</span>
-              <span className="text-[10px] font-medium text-muted-foreground">{item.name}</span>
+        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          {["전체", "웨딩홀", "드레스", "예산", "신혼여행", "스튜디오", "메이크업"].map((name, idx) => (
+            <button
+              key={name}
+              className={`flex-none rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
+                idx === 0
+                  ? "border-foreground bg-foreground text-white"
+                  : "border-border bg-background text-foreground hover:bg-secondary"
+              }`}
+            >
+              {name}
             </button>
           ))}
         </div>

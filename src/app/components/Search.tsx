@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { SearchIcon, ChevronDown, MapPin, Star, Heart, X, ArrowLeft, Check } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { SearchIcon, ChevronDown, MapPin, Star, Heart, X, ArrowLeft, Check, SlidersHorizontal } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -123,6 +123,16 @@ export function Search() {
   const [query, setQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [activeSort, setActiveSort] = useState("인기순");
+  const [sortOpen, setSortOpen] = useState(false);
+  const sortRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const close = (e: MouseEvent) => {
+      if (sortOpen && sortRef.current && !sortRef.current.contains(e.target as Node)) setSortOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [sortOpen]);
   const [area, setArea] = useState("서울 전체");
   const [budget, setBudget] = useState("전체");
   const [timing, setTiming] = useState("준비 중");
@@ -169,61 +179,72 @@ export function Search() {
               </button>
             )}
           </div>
+          <button
+            onClick={() => setShowFilters(true)}
+            aria-label="필터"
+            className="grid h-12 w-12 flex-none place-items-center rounded-2xl bg-secondary text-foreground transition-colors hover:bg-muted"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Select-style filter chips */}
-      <div
-        className="flex gap-2 px-5 pt-3 pb-3 overflow-x-auto"
-        style={{ scrollbarWidth: "none" }}
-      >
-        {/* Category chip */}
+      {/* Filter chips + Sort dropdown */}
+      <div className="flex items-center gap-2 px-5 pt-3 pb-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
         <button
           onClick={() => setShowFilters(true)}
           className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
-            activeCategory !== "all"
-              ? "border-foreground bg-foreground text-white"
-              : "border-border bg-card text-foreground"
+            activeCategory !== "all" ? "border-foreground bg-foreground text-white" : "border-border bg-card text-foreground"
           }`}
         >
           {activeCategory === "all" ? "카테고리" : CATEGORIES.find((c) => c.id === activeCategory)?.label}
           <ChevronDown className="h-3.5 w-3.5 opacity-50" />
         </button>
-
-        {/* Area chip */}
         <button
           onClick={() => setShowFilters(true)}
           className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
-            area !== "서울 전체"
-              ? "border-foreground bg-foreground text-white"
-              : "border-border bg-card text-foreground"
+            area !== "서울 전체" ? "border-foreground bg-foreground text-white" : "border-border bg-card text-foreground"
           }`}
         >
           {area === "서울 전체" ? "서울" : area}
           <ChevronDown className="h-3.5 w-3.5 opacity-50" />
         </button>
-
-        {/* Budget chip */}
         <button
           onClick={() => setShowFilters(true)}
           className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
-            budget !== "전체"
-              ? "border-foreground bg-foreground text-white"
-              : "border-border bg-card text-foreground"
+            budget !== "전체" ? "border-foreground bg-foreground text-white" : "border-border bg-card text-foreground"
           }`}
         >
           {budget === "전체" ? "가격" : budget}
           <ChevronDown className="h-3.5 w-3.5 opacity-50" />
         </button>
 
-        {/* Sort chip */}
-        <button
-          onClick={() => setShowFilters(true)}
-          className="flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border border-border bg-card text-sm font-semibold text-foreground"
-        >
-          {activeSort}
-          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
-        </button>
+        {/* Sort — inline dropdown */}
+        <div ref={sortRef} className="relative ml-auto flex-none">
+          <button
+            onClick={() => setSortOpen((o) => !o)}
+            className="inline-flex items-center gap-1 h-9 px-3.5 rounded-full border border-border bg-card text-sm font-semibold text-foreground whitespace-nowrap"
+          >
+            {activeSort}
+            <ChevronDown className={`h-3.5 w-3.5 opacity-50 transition-transform ${sortOpen ? "rotate-180" : ""}`} />
+          </button>
+          {sortOpen && (
+            <div className="absolute right-0 top-11 z-30 min-w-[140px] overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
+              {SORT_OPTIONS.map((option, idx) => (
+                <button
+                  key={option}
+                  onClick={() => { setActiveSort(option); setSortOpen(false); }}
+                  className={`flex w-full items-center justify-between px-4 py-3 text-sm font-medium transition-colors hover:bg-secondary ${
+                    idx < SORT_OPTIONS.length - 1 ? "border-b border-border/50" : ""
+                  }`}
+                >
+                  <span className={activeSort === option ? "font-bold text-foreground" : "text-muted-foreground"}>{option}</span>
+                  {activeSort === option && <Check className="h-3.5 w-3.5 text-foreground" />}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Results count */}

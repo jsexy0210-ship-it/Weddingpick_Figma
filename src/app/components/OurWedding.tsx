@@ -268,7 +268,7 @@ export function OurWedding() {
 
       {/* Tab nav — 3 columns */}
       <nav className="mx-5 grid grid-cols-3 rounded-2xl bg-secondary p-1">
-        {(["calendar", "budget", "consult"] as const).map((key) => (
+        {(["calendar", "consult", "budget"] as const).map((key) => (
           <button
             key={key}
             onClick={() => setTab(key)}
@@ -276,7 +276,7 @@ export function OurWedding() {
               tab === key ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
             }`}
           >
-            {key === "calendar" ? "캘린더" : key === "budget" ? "예산현황" : "상담기록"}
+            {key === "calendar" ? "캘린더" : key === "consult" ? "상담기록" : "예산현황"}
           </button>
         ))}
       </nav>
