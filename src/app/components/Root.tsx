@@ -1,5 +1,6 @@
 import { Outlet, NavLink, useLocation } from "react-router";
 import { Home, Heart, Calendar, User, MessageCircle } from "lucide-react";
+import { Toaster } from "sonner";
 
 const NAV_ITEMS = [
   { path: "/", label: "홈", Icon: Home, exact: true },
@@ -16,6 +17,7 @@ export function Root() {
   return (
     <div className="min-h-screen bg-muted flex justify-center items-start">
       <div className="relative w-full max-w-[430px] min-h-screen bg-background flex flex-col shadow-2xl">
+        <Toaster position="top-center" richColors />
         <main className="flex-1 overflow-y-auto overflow-x-hidden" style={{ height: isFlowPage ? "100dvh" : "calc(100dvh - 72px)", scrollbarWidth: "none" }}>
           <Outlet />
         </main>
@@ -49,7 +51,7 @@ export function Root() {
                   </div>
                   <span
                     className={`text-[10px] font-semibold tracking-wide transition-colors ${
-                      isActive ? "text-primary" : "text-muted-foreground"
+                      isActive ? "text-foreground" : "text-muted-foreground"
                     }`}
                   >
                     {label}
@@ -67,12 +69,12 @@ export function Root() {
               >
                 <Icon
                   className={`w-5 h-5 transition-colors ${
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    isActive ? "text-foreground" : "text-muted-foreground"
                   }`}
                 />
                 <span
                   className={`text-[10px] font-medium transition-colors ${
-                    isActive ? "text-primary" : "text-muted-foreground"
+                    isActive ? "text-foreground" : "text-muted-foreground"
                   }`}
                 >
                   {label}

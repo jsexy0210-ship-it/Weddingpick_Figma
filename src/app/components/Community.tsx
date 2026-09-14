@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Heart, MessageCircle, Bookmark, Send, MoreHorizontal, Plus } from 'lucide-react';
+import { Heart, MessageCircle, Bookmark, Send, MoreHorizontal } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { Input } from './ui/input';
 
@@ -108,9 +108,7 @@ export function Community() {
     <div className="max-w-2xl mx-auto pb-6">
       <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center z-10">
         <h1>커뮤니티</h1>
-        <Button size="icon" className="bg-pink-500 hover:bg-pink-600 rounded-full">
-          <Plus className="w-5 h-5" />
-        </Button>
+        <span className="text-xs font-semibold text-muted-foreground">웨딩피드</span>
       </div>
 
       <div className="space-y-0">

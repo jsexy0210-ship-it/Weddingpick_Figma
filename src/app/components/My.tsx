@@ -6,7 +6,7 @@ const MENU_SECTIONS = [
   {
     title: "활동",
     items: [
-      { icon: Heart, label: "내가 쓴 후기", count: "3", path: "" },
+      { icon: Heart, label: "저장한 웨딩 콘텐츠", count: "3", path: "" },
       { icon: Star, label: "관심 업체", count: "7", path: "" },
     ],
   },
@@ -105,7 +105,7 @@ export function My() {
       </div>
 
       <button onClick={() => navigate("/community")} className="mx-5 mb-5 flex w-[calc(100%-2.5rem)] items-center justify-between rounded-2xl bg-foreground p-4 text-left text-white">
-        <div><p className="text-sm font-bold">먼저 고른 사람들의 이야기</p><p className="mt-0.5 text-xs text-white/55">계약 인증 후기와 예산 고민을 나눠요</p></div><ChevronRight className="h-5 w-5 text-[#E4B0A3]" />
+        <div><p className="text-sm font-bold">함께 준비하는 사람들의 기록</p><p className="mt-0.5 text-xs text-white/55">예산, 드레스, 일정에 도움되는 콘텐츠를 모았어요</p></div><ChevronRight className="h-5 w-5 text-[#E4B0A3]" />
       </button>
 
       {/* Quick Notif Toggle */}
@@ -114,7 +114,7 @@ export function My() {
           <Bell className="w-4 h-4 text-foreground" />
           <div>
             <p className="text-sm font-semibold text-foreground">앱 알림</p>
-            <p className="text-xs text-muted-foreground mt-0.5">새 후기, 프로모션, 일정 알림</p>
+            <p className="text-xs text-muted-foreground mt-0.5">새 콘텐츠, 프로모션, 일정 알림</p>
           </div>
         </div>
         <button

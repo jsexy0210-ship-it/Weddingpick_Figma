@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { SearchIcon, SlidersHorizontal, MapPin, Star, Heart, X, ArrowLeft } from "lucide-react";
+import { SearchIcon, SlidersHorizontal, MapPin, Star, Heart, X, ArrowLeft, Check } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 const CATEGORIES = [
   { id: "all", label: "전체" },
@@ -25,7 +26,7 @@ const VENDORS = [
     reviews: 312,
     image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&h=280&fit=crop&auto=format",
     tags: ["웨딩홀전용", "야외정원"],
-    verified: true,
+    badge: "인기",
   },
   {
     id: 2,
@@ -39,7 +40,7 @@ const VENDORS = [
     reviews: 198,
     image: "https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=280&fit=crop&auto=format",
     tags: ["자연광", "야외촬영"],
-    verified: true,
+    badge: "인기",
   },
   {
     id: 3,
@@ -53,7 +54,7 @@ const VENDORS = [
     reviews: 145,
     image: "https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&h=280&fit=crop&auto=format",
     tags: ["필름감성"],
-    verified: false,
+    badge: null,
   },
   {
     id: 4,
@@ -67,7 +68,7 @@ const VENDORS = [
     reviews: 89,
     image: "https://images.unsplash.com/photo-1594552072238-b8a33785b6cd?w=400&h=280&fit=crop&auto=format",
     tags: ["A라인", "볼가운"],
-    verified: true,
+    badge: null,
   },
   {
     id: 5,
@@ -81,7 +82,7 @@ const VENDORS = [
     reviews: 74,
     image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&h=280&fit=crop&auto=format",
     tags: ["이탈리안브랜드", "럭셔리"],
-    verified: true,
+    badge: "신규",
   },
   {
     id: 6,
@@ -95,7 +96,7 @@ const VENDORS = [
     reviews: 203,
     image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=280&fit=crop&auto=format",
     tags: ["당일메이크업", "리허설포함"],
-    verified: true,
+    badge: "인기",
   },
   {
     id: 7,
@@ -109,11 +110,11 @@ const VENDORS = [
     reviews: 167,
     image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=280&fit=crop&auto=format",
     tags: ["자연스러운웨딩룩"],
-    verified: false,
+    badge: null,
   },
 ];
 
-const SORT_OPTIONS = ["인기순", "평점순", "후기많은순", "최신등록순"];
+const SORT_OPTIONS = ["인기순", "평점순", "계약인증순", "최신등록순"];
 
 export function Search() {
   const navigate = useNavigate();
@@ -122,11 +123,16 @@ export function Search() {
   const [query, setQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [activeSort, setActiveSort] = useState("인기순");
+  const [area, setArea] = useState("서울 전체");
+  const [budget, setBudget] = useState("전체");
+  const [timing, setTiming] = useState("준비 중");
+  const [style, setStyle] = useState("자연스러운 무드");
 
-  const togglePick = (id: number) =>
-    setPickedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+  const togglePick = (id: number) => {
+    const isAdding = !pickedIds.includes(id);
+    setPickedIds((prev) => isAdding ? [...prev, id] : prev.filter((x) => x !== id));
+    if (isAdding) toast.success("Pick 목록에 담겼어요.");
+  };
 
   const filtered = VENDORS.filter((v) => {
     const matchCategory = activeCategory === "all" || v.category === activeCategory;
@@ -148,7 +154,7 @@ export function Search() {
         </div>
         {/* Search bar */}
         <div className="flex gap-2">
-          <div className="flex-1 flex items-center gap-2 bg-secondary rounded-2xl px-4 h-12">
+          <div className="flex flex-1 items-center gap-2 rounded-2xl bg-secondary px-4 h-12">
             <SearchIcon className="w-4 h-4 text-muted-foreground flex-none" />
             <input
               type="text"
@@ -163,14 +169,6 @@ export function Search() {
               </button>
             )}
           </div>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-none transition-colors ${
-              showFilters ? "bg-primary text-white" : "bg-secondary text-foreground"
-            }`}
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
@@ -194,31 +192,10 @@ export function Search() {
         ))}
       </div>
 
-      {/* Sort row */}
-      {showFilters && (
-        <div
-          className="flex gap-2 px-5 overflow-x-auto pb-3"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <button
-              key={opt}
-              onClick={() => setActiveSort(opt)}
-              className={`flex-none px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                activeSort === opt
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-border text-muted-foreground"
-              }`}
-            >
-              {opt}
-            </button>
-          ))}
-        </div>
-      )}
-
       {/* Results count */}
-      <div className="px-5 mb-3">
-        <span className="text-xs text-muted-foreground font-medium">{filtered.length}개 업체</span>
+      <div className="mb-3 flex items-center justify-between px-5">
+        <span className="text-xs font-medium text-muted-foreground">{filtered.length}개 업체</span>
+        <button onClick={() => setShowFilters(true)} className="flex h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-bold text-foreground transition-colors hover:bg-secondary"><SlidersHorizontal className="h-3.5 w-3.5 text-primary" />필터 {area !== "서울 전체" || budget !== "전체" || timing !== "준비 중" || style !== "자연스러운 무드" ? "· 1+" : ""}</button>
       </div>
 
       {/* Vendor List */}
@@ -233,25 +210,27 @@ export function Search() {
             className="w-full cursor-pointer bg-card rounded-2xl border border-border overflow-hidden shadow-sm text-left"
           >
             <div className="flex gap-0">
-              <div className="relative w-28 flex-none">
+              <div className="relative w-32 flex-none">
                 <img
                   src={v.image}
                   alt={v.name}
-                  className="w-28 h-28 object-cover bg-muted"
+                  className="w-32 h-36 object-cover bg-muted"
                 />
-                {v.verified && (
-                  <span className="absolute bottom-1.5 left-1.5 bg-foreground/80 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full backdrop-blur-sm">
-                    공식확인
+                {v.badge && (
+                  <span className="absolute left-2 top-2 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold text-white">
+                    {v.badge}
                   </span>
                 )}
               </div>
-              <div className="flex-1 p-3 flex flex-col justify-between">
+              <div className="flex-1 p-3.5 flex flex-col justify-between">
                 <div>
                   <div className="flex items-start justify-between gap-1">
                     <div>
-                      <span className="text-[10px] text-primary font-bold uppercase tracking-wider">
-                        {v.categoryLabel}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                          {v.categoryLabel}
+                        </span>
+                      </div>
                       <p className="font-bold text-foreground text-sm leading-snug mt-0.5">{v.name}</p>
                     </div>
                     <button
@@ -289,7 +268,7 @@ export function Search() {
                       <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
                       <span className="text-xs font-semibold text-foreground">{v.rating}</span>
                     </div>
-                    <span className="text-[10px] text-muted-foreground">후기 {v.reviews}</span>
+                    <span className="text-[10px] text-muted-foreground">저장 {v.picks}</span>
                   </div>
                 </div>
               </div>
@@ -305,6 +284,23 @@ export function Search() {
           </div>
         )}
       </div>
+
+      {showFilters && <div className="fixed inset-0 z-50 flex items-end bg-foreground/35" onClick={(event) => event.target === event.currentTarget && setShowFilters(false)}>
+        <section className="max-h-[86dvh] w-full max-w-[430px] overflow-y-auto rounded-t-[28px] bg-background px-5 pb-8 pt-3">
+          <div className="mx-auto h-1 w-10 rounded-full bg-border" />
+          <header className="flex items-center justify-between py-5"><div><h2 className="text-lg font-bold text-foreground">필터</h2><p className="mt-0.5 text-xs text-muted-foreground">우리에게 맞는 업체만 남겨볼게요.</p></div><button onClick={() => { setArea("서울 전체"); setBudget("전체"); setTiming("준비 중"); setStyle("자연스러운 무드"); }} className="text-xs font-bold text-primary">초기화</button></header>
+          <FilterGroup label="지역" options={["서울 전체", "강남·서초", "송파·강동", "마포·성수", "경기·인천"]} value={area} onChange={setArea} />
+          <FilterGroup label="예산" options={["전체", "100만원 이하", "100–200만원", "200–400만원", "400만원 이상"]} value={budget} onChange={setBudget} />
+          <FilterGroup label="준비 단계" options={["준비 중", "상담 전", "비교 중", "계약 직전"]} value={timing} onChange={setTiming} />
+          <FilterGroup label="선호 무드" options={["자연스러운 무드", "화려한 연출", "미니멀", "클래식"]} value={style} onChange={setStyle} />
+          <div className="mt-7"><p className="mb-2 text-xs font-bold text-foreground">정렬</p><div className="flex gap-2 overflow-x-auto pb-1">{SORT_OPTIONS.map((option) => <button key={option} onClick={() => setActiveSort(option)} className={`whitespace-nowrap rounded-full px-4 py-2.5 text-xs font-bold ${activeSort === option ? "bg-foreground text-white" : "bg-secondary text-muted-foreground"}`}>{option}</button>)}</div></div>
+          <button onClick={() => setShowFilters(false)} className="mt-8 h-14 w-full rounded-2xl bg-primary text-sm font-bold text-white">{filtered.length}개 업체 보기</button>
+        </section>
+      </div>}
     </div>
   );
+}
+
+function FilterGroup({ label, options, value, onChange }: { label: string; options: string[]; value: string; onChange: (value: string) => void }) {
+  return <section className="border-t border-border py-5"><p className="mb-3 text-sm font-bold text-foreground">{label}</p><div className="flex flex-wrap gap-2">{options.map((option) => <button key={`${label}-${option}`} onClick={() => onChange(option)} className={`flex items-center gap-1 rounded-full px-3.5 py-2.5 text-xs font-semibold transition-colors ${value === option ? "bg-primary text-white" : "bg-secondary text-muted-foreground"}`}>{value === option && <Check className="h-3.5 w-3.5" />}{option}</button>)}</div></section>;
 }
