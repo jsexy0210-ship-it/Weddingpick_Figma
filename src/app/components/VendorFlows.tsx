@@ -266,7 +266,7 @@ export function VendorDetailPage() {
                   key={i}
                   src={src}
                   alt={`포트폴리오 ${i + 1}`}
-                  className="h-36 w-36 flex-none rounded-2xl bg-muted object-cover"
+                  className="h-36 w-36 flex-none rounded-lg bg-muted object-cover"
                 />
               ))}
             </div>
@@ -560,7 +560,7 @@ export function ConsultPage() {
           <img
             src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&auto=format"
             alt="담당 작가 김소연"
-            className="h-16 w-16 flex-none rounded-xl bg-muted object-cover"
+            className="h-16 w-16 flex-none rounded-lg bg-muted object-cover"
           />
           <div>
             <p className="font-mono text-[10px] tracking-[0.12em] text-muted-foreground">YOUR CONSULTANT</p>

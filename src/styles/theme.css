@@ -1,44 +1,49 @@
+/* SEED Tailwind 4 theme — exposes SEED palette as Tailwind color utilities */
+@import '@seed-design/tailwind4-theme';
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
-  --background: #FFFDF9;
-  --foreground: #371B34;
-  --card: #FFFFFF;
-  --card-foreground: #371B34;
-  --popover: #FFFFFF;
-  --popover-foreground: #371B34;
-  --primary: #EE5C51;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F1F2F4;
-  --secondary-foreground: #371B34;
-  --muted: #F6F7F8;
-  --muted-foreground: #737780;
-  --accent: #69707A;
-  --accent-foreground: #FFFFFF;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
-  --border: rgba(37, 42, 50, 0.12);
-  --input: transparent;
-  --input-background: #F1F2F4;
-  --switch-background: #C9CDD3;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --ring: #EE5C51;
-  --chart-1: #EE5C51;
-  --chart-2: #C9795D;
-  --chart-3: #6B8F71;
-  --chart-4: #8B7BAD;
-  --chart-5: #C9A96E;
-  --radius: 1.125rem;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #371B34;
-  --sidebar-primary: #EE5C51;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F1F2F4;
-  --sidebar-accent-foreground: #371B34;
-  --sidebar-border: rgba(55, 27, 52, 0.10);
-  --sidebar-ring: #EE5C51;
+
+  /* ── SEED 시맨틱 토큰 연결 ───────────────────────────────────────── */
+  --background:            var(--seed-color-bg-layer-default);
+  --foreground:            var(--seed-color-fg-neutral);
+  --card:                  var(--seed-color-bg-layer-floating);
+  --card-foreground:       var(--seed-color-fg-neutral);
+  --popover:               var(--seed-color-bg-layer-floating);
+  --popover-foreground:    var(--seed-color-fg-neutral);
+  --primary:               #E7898D;
+  --primary-foreground:    #ffffff;
+  --secondary:             var(--seed-color-bg-layer-fill);
+  --secondary-foreground:  var(--seed-color-fg-neutral);
+  --muted:                 var(--seed-color-bg-layer-fill);
+  --muted-foreground:      var(--seed-color-fg-neutral-subtle);
+  --accent:                #ECA0A3;
+  --accent-foreground:     #ffffff;
+  --destructive:           var(--seed-color-palette-red-500);
+  --destructive-foreground: var(--seed-color-palette-gray-00);
+  --border:                var(--seed-color-stroke-neutral-muted);
+  --input:                 transparent;
+  --input-background:      var(--seed-color-bg-layer-fill);
+  --switch-background:     var(--seed-color-palette-gray-400);
+  --font-weight-medium:    500;
+  --font-weight-normal:    400;
+  --ring:                  #E7898D;
+  --chart-1:               #E7898D;
+  --chart-2:               #F4BFC1;
+  --chart-3:               var(--seed-color-palette-green-500);
+  --chart-4:               var(--seed-color-palette-purple-400);
+  --chart-5:               var(--seed-color-palette-yellow-500);
+  --radius:                1.125rem;
+  --sidebar:               var(--seed-color-bg-layer-floating);
+  --sidebar-foreground:    var(--seed-color-fg-neutral);
+  --sidebar-primary:       #E7898D;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent:        var(--seed-color-bg-layer-fill);
+  --sidebar-accent-foreground: var(--seed-color-fg-neutral);
+  --sidebar-border:        var(--seed-color-stroke-regular);
+  --sidebar-ring:          #E7898D;
 }
 
 .dark {

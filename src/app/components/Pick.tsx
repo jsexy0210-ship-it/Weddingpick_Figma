@@ -221,7 +221,7 @@ function CompareScreen({
                   <img
                     src={v.image}
                     alt={v.name}
-                    className="h-[104px] w-full rounded-2xl object-cover"
+                    className="h-[104px] w-full rounded-lg object-cover"
                   />
                   {v.badge && (
                     <span className="absolute left-2 top-2 rounded-full bg-foreground px-2 py-0.5 text-[9px] font-bold text-white">
@@ -477,15 +477,15 @@ export function Pick() {
                 onKeyDown={(e) => e.key === "Enter" && navigate(`/vendor/${v.id}`)}
               >
                 {/* Thumbnail */}
-                <div className="relative w-32 flex-none">
-                  <img src={v.image} alt={v.name} className="h-36 w-32 bg-muted object-cover" />
+                <div className="relative flex-none p-2" style={{ width: 120 }}>
+                  <img src={v.image} alt={v.name} className="h-[116px] w-full rounded-lg bg-muted object-cover" />
                   {v.badge && (
-                    <span className="absolute left-2 top-2 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold text-white">
+                    <span className="absolute left-3.5 top-3.5 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold text-white">
                       {v.badge}
                     </span>
                   )}
                   {isConfirmed && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <div className="absolute inset-2 flex items-center justify-center rounded-xl bg-black/30">
                       <CheckCircle2 className="h-7 w-7 text-white drop-shadow" />
                     </div>
                   )}

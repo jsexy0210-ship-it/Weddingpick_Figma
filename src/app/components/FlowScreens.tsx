@@ -356,8 +356,8 @@ function CategoryRail() {
           aria-expanded={mineOpen}
           onClick={() => setMineOpen((o) => !o)}
           whileTap={{ scale: 0.94 }}
-          className={`grid h-14 w-14 place-items-center rounded-full text-white shadow-[0_12px_28px_rgba(238,92,81,0.38)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${
-            mineOpen ? "bg-foreground" : "bg-primary hover:bg-[#d94f46]"
+          className={`grid h-14 w-14 place-items-center rounded-full text-white shadow-[0_12px_28px_rgba(231,137,141,0.38)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${
+            mineOpen ? "bg-foreground" : "bg-primary hover:bg-[#D47278]"
           }`}
         >
           <motion.span animate={{ rotate: mineOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>

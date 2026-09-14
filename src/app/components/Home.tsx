@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { Bell, ChevronRight, Ellipsis, Heart, Link2, MapPin, Search, Star, CheckCircle2, Clock, Circle } from "lucide-react";
+import {
+  IconNotificationRegular,
+  IconChevronRightRegular,
+  IconMoreHorizRegular,
+  IconHeartRegular,
+  IconHeartFill,
+  IconLocationRegular,
+  IconSearchRegular,
+  IconReviewStarFill,
+  IconCheckFlowerFill,
+  IconClockRegular,
+} from "@seed-design/icon";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -60,12 +71,13 @@ const WEDDING_CONTENT = [
   { id: "3", category: "체크리스트", title: "본식 4개월 전, 지금 정리할 7가지", meta: "준비 가이드 · 4분", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=240&h=180&fit=crop&auto=format" },
 ];
 
+// #E7898D as default first theme
 const HERO_THEMES = [
+  { name: "웨딩픽", surface: "bg-[#E7898D]", swatch: "bg-[#E7898D]" },
   { name: "코랄", surface: "bg-[#F26A5F]", swatch: "bg-[#F26A5F]" },
   { name: "옐로우", surface: "bg-[#E1AE2E]", swatch: "bg-[#E1AE2E]" },
   { name: "라일락", surface: "bg-[#9A82C9]", swatch: "bg-[#9A82C9]" },
   { name: "민트", surface: "bg-[#4D9D87]", swatch: "bg-[#4D9D87]" },
-  { name: "스카이", surface: "bg-[#4A91C8]", swatch: "bg-[#4A91C8]" },
 ];
 
 export function Home() {
@@ -76,7 +88,7 @@ export function Home() {
 
   const togglePick = (id: number) => {
     const isAdding = !pickedIds.includes(id);
-    setPickedIds((prev) => isAdding ? [...prev, id] : prev.filter((x) => x !== id));
+    setPickedIds((prev) => (isAdding ? [...prev, id] : prev.filter((x) => x !== id)));
     if (isAdding) toast.success("Pick 목록에 담겼어요.");
   };
 
@@ -85,21 +97,63 @@ export function Home() {
       <header className="flex items-center justify-between px-5 pb-4 pt-6">
         <h1 className="font-display text-[26px] font-bold tracking-[-0.02em]">웨딩픽</h1>
         <div className="flex items-center gap-1">
-          <button onClick={() => navigate("/explore")} aria-label="업체 검색" className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-secondary">
-            <Search className="h-5 w-5" />
+          <button
+            onClick={() => navigate("/explore")}
+            aria-label="업체 검색"
+            className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-secondary"
+          >
+            <IconSearchRegular size={20} />
           </button>
-          <button aria-label="알림" className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-secondary">
-            <Bell className="h-5 w-5" />
+          <button
+            aria-label="알림"
+            className="grid h-10 w-10 place-items-center rounded-full text-foreground transition-colors hover:bg-secondary"
+          >
+            <IconNotificationRegular size={20} />
           </button>
         </div>
       </header>
 
-      {/* Unified hero + D-day */}
-      <div className={`relative mx-5 mb-6 overflow-hidden rounded-[26px] p-6 text-white transition-colors duration-300 ${HERO_THEMES[heroTheme].surface}`}>
+      {/* Hero */}
+      <div
+        className={`relative mx-5 mb-6 overflow-hidden rounded-[26px] p-6 text-white transition-colors duration-300 ${HERO_THEMES[heroTheme].surface}`}
+      >
         <div className="absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/[0.12]" />
         <div className="absolute -bottom-12 -left-8 h-40 w-40 rounded-full border-[20px] border-white/[0.07]" />
         <div className="relative">
-          <div className="mb-3 flex items-center justify-between"><p className="font-mono text-[10px] tracking-[0.2em] text-white/60">두근두근</p><div className="relative"><button type="button" aria-label="히어로 색상 더보기" aria-expanded={paletteOpen} onClick={() => setPaletteOpen((open) => !open)} className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"><Ellipsis className="h-4 w-4" /></button>{paletteOpen && <div className="absolute right-0 top-9 z-10 flex gap-1.5 rounded-full border border-white/20 bg-black/20 p-1.5 backdrop-blur">{HERO_THEMES.map((theme, index) => <button key={theme.name} type="button" aria-label={`${theme.name} 히어로 색상`} aria-pressed={heroTheme === index} onClick={() => { setHeroTheme(index); setPaletteOpen(false); }} className={`grid h-6 w-6 place-items-center rounded-full transition-transform ${heroTheme === index ? "scale-110 ring-1 ring-white ring-offset-2 ring-offset-transparent" : "opacity-80 hover:opacity-100"}`}><span className={`h-4 w-4 rounded-full ${theme.swatch}`} /></button>)}</div>}</div></div>
+          <div className="mb-3 flex items-center justify-between">
+            <p className="font-mono text-[10px] tracking-[0.2em] text-white/60">두근두근</p>
+            <div className="relative">
+              <button
+                type="button"
+                aria-label="히어로 색상 더보기"
+                aria-expanded={paletteOpen}
+                onClick={() => setPaletteOpen((open) => !open)}
+                className="grid h-7 w-7 place-items-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25"
+              >
+                <IconMoreHorizRegular size={16} />
+              </button>
+              {paletteOpen && (
+                <div className="absolute right-0 top-9 z-10 flex gap-1.5 rounded-full border border-white/20 bg-black/20 p-1.5 backdrop-blur">
+                  {HERO_THEMES.map((theme, index) => (
+                    <button
+                      key={theme.name}
+                      type="button"
+                      aria-label={`${theme.name} 히어로 색상`}
+                      aria-pressed={heroTheme === index}
+                      onClick={() => { setHeroTheme(index); setPaletteOpen(false); }}
+                      className={`grid h-6 w-6 place-items-center rounded-full transition-transform ${
+                        heroTheme === index
+                          ? "scale-110 ring-1 ring-white ring-offset-2 ring-offset-transparent"
+                          : "opacity-80 hover:opacity-100"
+                      }`}
+                    >
+                      <span className={`h-4 w-4 rounded-full ${theme.swatch}`} />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
           <span
             className="mb-2 block font-display text-[64px] font-bold leading-none text-white tracking-[-0.03em]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
@@ -107,7 +161,16 @@ export function Home() {
             D-127
           </span>
           <p className="text-sm text-white/75">2027년 1월 15일 (금) · 서울 그랜드 워커힐</p>
-          <div className="mt-5 flex items-center justify-between border-t border-white/15 pt-4"><div className="flex items-center gap-2"><div className="flex -space-x-1.5"><span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#F7D2C4] text-[9px] font-bold text-[#513B37]">지</span><span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#C9DAEC] text-[9px] font-bold text-[#31475D]">준</span></div><span className="text-[11px] font-medium text-white/80">지윤 · 준혁 함께 준비 중</span></div><span className="inline-flex items-center gap-1 text-[10px] text-white/65"><Link2 className="h-3 w-3" />연결됨</span></div>
+          <div className="mt-5 flex items-center justify-between border-t border-white/15 pt-4">
+            <div className="flex items-center gap-2">
+              <div className="flex -space-x-1.5">
+                <span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#F7D2C4] text-[9px] font-bold text-[#513B37]">지</span>
+                <span className="grid h-6 w-6 place-items-center rounded-full border-2 border-white/60 bg-[#C9DAEC] text-[9px] font-bold text-[#31475D]">준</span>
+              </div>
+              <span className="text-[11px] font-medium text-white/80">지윤 · 준혁 함께 준비 중</span>
+            </div>
+            <span className="text-[10px] text-white/65">연결됨</span>
+          </div>
         </div>
       </div>
 
@@ -134,9 +197,11 @@ export function Home() {
               >
                 <div className="flex items-start justify-between mb-2">
                   <span className="text-xl">{item.icon}</span>
-                  {isDone && <CheckCircle2 className="w-4 h-4 text-foreground" />}
-                  {isPicking && <Clock className="w-4 h-4 text-sky-500" />}
-                  {!isDone && !isPicking && <Circle className="w-4 h-4 text-muted-foreground/30" />}
+                  {isDone && <IconCheckFlowerFill size={16} className="text-foreground" />}
+                  {isPicking && <IconClockRegular size={16} className="text-sky-500" />}
+                  {!isDone && !isPicking && (
+                    <span className="inline-block h-4 w-4 rounded-full border-[1.5px] border-muted-foreground/30" />
+                  )}
                 </div>
                 <p className="font-semibold text-foreground text-sm">{item.label}</p>
                 <p
@@ -159,7 +224,12 @@ export function Home() {
             <h3 className="text-sm font-semibold text-foreground">웨딩픽 추천</h3>
             <p className="mt-0.5 text-xs text-muted-foreground">저장한 업체를 한 번에 비교해봐요</p>
           </div>
-          <button onClick={() => navigate("/pick", { state: { openCompare: true } })} className="rounded-full bg-primary px-3.5 py-2 text-xs font-bold text-white shadow-sm shadow-primary/20">비교하기</button>
+          <button
+            onClick={() => navigate("/pick", { state: { openCompare: true } })}
+            className="rounded-full bg-primary px-3.5 py-2 text-xs font-bold text-white shadow-sm shadow-primary/20"
+          >
+            비교하기
+          </button>
         </div>
         <div className="flex gap-3 pl-5 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
           {RECOMMENDATIONS.map((v) => (
@@ -171,11 +241,12 @@ export function Home() {
               onKeyDown={(event) => event.key === "Enter" && navigate(`/vendor/${v.id}`)}
               className="flex-none w-52 cursor-pointer bg-card rounded-2xl overflow-hidden border border-border shadow-sm"
             >
+              {/* Thumbnail flush to card top — original state */}
               <div className="relative">
                 <img
                   src={v.image}
                   alt={v.name}
-                  className="w-full h-36 object-cover bg-muted"
+                  className="w-full h-36 object-cover"
                 />
                 <button
                   onClick={(event) => { event.stopPropagation(); togglePick(v.id); }}
@@ -183,18 +254,13 @@ export function Home() {
                     pickedIds.includes(v.id) ? "bg-foreground" : "bg-white/80"
                   }`}
                 >
-                  <Heart
-                    className={`w-4 h-4 transition-colors ${
-                      pickedIds.includes(v.id) ? "fill-white text-white" : "text-foreground"
-                    }`}
-                  />
+                  {pickedIds.includes(v.id)
+                    ? <IconHeartFill size={16} className="text-white" />
+                    : <IconHeartRegular size={16} className="text-foreground" />
+                  }
                 </button>
                 {v.badge && (
-                  <span
-                    className={`absolute top-2.5 left-2.5 text-white text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      v.badge === "신규" ? "bg-foreground" : "bg-foreground"
-                    }`}
-                  >
+                  <span className="absolute top-2.5 left-2.5 text-white text-[10px] font-bold px-2 py-0.5 rounded-full bg-foreground">
                     {v.badge}
                   </span>
                 )}
@@ -205,13 +271,13 @@ export function Home() {
                 </span>
                 <p className="font-semibold text-foreground text-sm mt-0.5">{v.name}</p>
                 <div className="flex items-center gap-1 mt-1">
-                  <MapPin className="w-3 h-3 text-muted-foreground" />
+                  <IconLocationRegular size={12} className="text-muted-foreground" />
                   <span className="text-xs text-muted-foreground">{v.location}</span>
                 </div>
                 <div className="flex items-center justify-between mt-2.5">
                   <span className="text-xs font-mono text-foreground font-medium">{v.price}</span>
                   <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <IconReviewStarFill size={12} className="text-amber-400" />
                     <span className="text-xs text-muted-foreground font-medium">{v.rating}</span>
                   </div>
                 </div>
@@ -241,7 +307,10 @@ export function Home() {
 
       {/* Wedding content */}
       <div className="px-5">
-        <div className="mb-3 flex items-center justify-between"><h3 className="text-sm font-semibold text-foreground">웨딩피드</h3><button onClick={() => navigate("/community?tab=feed")} className="text-xs font-semibold text-foreground">더보기</button></div>
+        <div className="mb-3 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-foreground">웨딩피드</h3>
+          <button onClick={() => navigate("/community?tab=feed")} className="text-xs font-semibold text-foreground">더보기</button>
+        </div>
         <div className="space-y-3">
           {WEDDING_CONTENT.map((content) => (
             <article
@@ -252,13 +321,17 @@ export function Home() {
               onKeyDown={(e) => e.key === "Enter" && navigate(`/community/feed/${content.id}`)}
               className="flex cursor-pointer gap-3 rounded-2xl border border-border bg-card p-3 transition-colors hover:bg-secondary/50"
             >
-              <img src={content.image} alt="웨딩 준비 가이드 이미지" className="h-20 w-20 rounded-xl bg-muted object-cover" />
+              <img
+                src={content.image}
+                alt="웨딩 준비 가이드 이미지"
+                className="h-20 w-20 rounded-lg bg-muted object-cover"
+              />
               <div className="flex min-w-0 flex-1 flex-col justify-center">
                 <p className="text-[10px] font-bold tracking-wide text-muted-foreground">{content.category}</p>
                 <p className="mt-1 text-sm font-semibold leading-5 text-foreground">{content.title}</p>
                 <p className="mt-1 text-[11px] text-muted-foreground">{content.meta}</p>
               </div>
-              <ChevronRight className="my-auto h-4 w-4 flex-none text-muted-foreground" />
+              <IconChevronRightRegular size={16} className="my-auto flex-none text-muted-foreground" />
             </article>
           ))}
         </div>

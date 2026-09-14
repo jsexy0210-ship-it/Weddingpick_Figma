@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SearchIcon, SlidersHorizontal, MapPin, Star, Heart, X, ArrowLeft, Check } from "lucide-react";
+import { SearchIcon, ChevronDown, MapPin, Star, Heart, X, ArrowLeft, Check } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -172,30 +172,63 @@ export function Search() {
         </div>
       </div>
 
-      {/* Category Tabs */}
+      {/* Select-style filter chips */}
       <div
-        className="flex gap-2 px-5 overflow-x-auto pb-1 mb-2"
+        className="flex gap-2 px-5 pt-3 pb-3 overflow-x-auto"
         style={{ scrollbarWidth: "none" }}
       >
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => setActiveCategory(cat.id)}
-            className={`flex-none px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-              activeCategory === cat.id
-                ? "bg-primary text-white shadow-sm shadow-primary/30"
-                : "bg-secondary text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {cat.label}
-          </button>
-        ))}
+        {/* Category chip */}
+        <button
+          onClick={() => setShowFilters(true)}
+          className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
+            activeCategory !== "all"
+              ? "border-foreground bg-foreground text-white"
+              : "border-border bg-card text-foreground"
+          }`}
+        >
+          {activeCategory === "all" ? "카테고리" : CATEGORIES.find((c) => c.id === activeCategory)?.label}
+          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+        </button>
+
+        {/* Area chip */}
+        <button
+          onClick={() => setShowFilters(true)}
+          className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
+            area !== "서울 전체"
+              ? "border-foreground bg-foreground text-white"
+              : "border-border bg-card text-foreground"
+          }`}
+        >
+          {area === "서울 전체" ? "서울" : area}
+          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+        </button>
+
+        {/* Budget chip */}
+        <button
+          onClick={() => setShowFilters(true)}
+          className={`flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border text-sm font-semibold transition-colors ${
+            budget !== "전체"
+              ? "border-foreground bg-foreground text-white"
+              : "border-border bg-card text-foreground"
+          }`}
+        >
+          {budget === "전체" ? "가격" : budget}
+          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+        </button>
+
+        {/* Sort chip */}
+        <button
+          onClick={() => setShowFilters(true)}
+          className="flex-none inline-flex items-center gap-1 h-9 px-3.5 rounded-full border border-border bg-card text-sm font-semibold text-foreground"
+        >
+          {activeSort}
+          <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+        </button>
       </div>
 
       {/* Results count */}
-      <div className="mb-3 flex items-center justify-between px-5">
+      <div className="mb-3 px-5">
         <span className="text-xs font-medium text-muted-foreground">{filtered.length}개 업체</span>
-        <button onClick={() => setShowFilters(true)} className="flex h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-bold text-foreground transition-colors hover:bg-secondary"><SlidersHorizontal className="h-3.5 w-3.5 text-primary" />필터 {area !== "서울 전체" || budget !== "전체" || timing !== "준비 중" || style !== "자연스러운 무드" ? "· 1+" : ""}</button>
       </div>
 
       {/* Vendor List */}
@@ -210,14 +243,14 @@ export function Search() {
             className="w-full cursor-pointer bg-card rounded-2xl border border-border overflow-hidden shadow-sm text-left"
           >
             <div className="flex gap-0">
-              <div className="relative w-32 flex-none">
+              <div className="relative flex-none p-2" style={{ width: 120 }}>
                 <img
                   src={v.image}
                   alt={v.name}
-                  className="w-32 h-36 object-cover bg-muted"
+                  className="h-[116px] w-full rounded-lg object-cover bg-muted"
                 />
                 {v.badge && (
-                  <span className="absolute left-2 top-2 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold text-white">
+                  <span className="absolute left-3.5 top-3.5 rounded-full bg-foreground px-2 py-0.5 text-[10px] font-bold text-white">
                     {v.badge}
                   </span>
                 )}
@@ -288,7 +321,8 @@ export function Search() {
       {showFilters && <div className="fixed inset-0 z-50 flex items-end bg-foreground/35" onClick={(event) => event.target === event.currentTarget && setShowFilters(false)}>
         <section className="max-h-[86dvh] w-full max-w-[430px] overflow-y-auto rounded-t-[28px] bg-background px-5 pb-8 pt-3">
           <div className="mx-auto h-1 w-10 rounded-full bg-border" />
-          <header className="flex items-center justify-between py-5"><div><h2 className="text-lg font-bold text-foreground">필터</h2><p className="mt-0.5 text-xs text-muted-foreground">우리에게 맞는 업체만 남겨볼게요.</p></div><button onClick={() => { setArea("서울 전체"); setBudget("전체"); setTiming("준비 중"); setStyle("자연스러운 무드"); }} className="text-xs font-bold text-primary">초기화</button></header>
+          <header className="flex items-center justify-between py-5"><div><h2 className="text-lg font-bold text-foreground">필터</h2><p className="mt-0.5 text-xs text-muted-foreground">우리에게 맞는 업체만 남겨볼게요.</p></div><button onClick={() => { setActiveCategory("all"); setArea("서울 전체"); setBudget("전체"); setTiming("준비 중"); setStyle("자연스러운 무드"); }} className="text-xs font-bold text-primary">초기화</button></header>
+          <FilterGroup label="카테고리" options={CATEGORIES.map((c) => c.label)} value={CATEGORIES.find((c) => c.id === activeCategory)?.label ?? "전체"} onChange={(v) => setActiveCategory(CATEGORIES.find((c) => c.label === v)?.id ?? "all")} />
           <FilterGroup label="지역" options={["서울 전체", "강남·서초", "송파·강동", "마포·성수", "경기·인천"]} value={area} onChange={setArea} />
           <FilterGroup label="예산" options={["전체", "100만원 이하", "100–200만원", "200–400만원", "400만원 이상"]} value={budget} onChange={setBudget} />
           <FilterGroup label="준비 단계" options={["준비 중", "상담 전", "비교 중", "계약 직전"]} value={timing} onChange={setTiming} />
